@@ -1,0 +1,24 @@
+.NavBar {
+    background-color: #111111;
+}
+
+.NavBarLink {
+    color: #F4F4F4;
+}
+
+.NavBarLink:hover{
+	color: #f7f705;
+}
+
+.NavBarLink i {
+    margin-right: 4px;
+}
+
+.NavBarBrand i {
+    color: #F4F4F4;
+}
+
+.NavBarToggleButton {
+    background-color: #F4F4F4;
+    color: #f7f705;
+}
