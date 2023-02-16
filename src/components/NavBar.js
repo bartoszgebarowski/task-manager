@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styles from "../styles/NavBar.module.css";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -18,18 +19,30 @@ const NavBar = () => {
         />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto text-start">
-            <Nav.Link className={styles.NavBarLink} href="#">
+            <NavLink
+              to="/"
+              className={styles.NavBarLink}
+              style={({ isActive }) => ({ color: isActive ? "green" : "" })}
+            >
               <i className="fa-sharp fa-solid fa-house"></i>
               Home
-            </Nav.Link>
-            <Nav.Link className={styles.NavBarLink} href="#">
+            </NavLink>
+            <NavLink
+              to="/signin"
+              className={styles.NavBarLink}
+              style={({ isActive }) => ({ color: isActive ? "green" : "" })}
+            >
               <i className="fa-solid fa-right-to-bracket"></i>
               Sign in
-            </Nav.Link>
-            <Nav.Link className={styles.NavBarLink} href="#">
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className={styles.NavBarLink}
+              style={({ isActive }) => ({ color: isActive ? "green" : "" })}
+            >
               <i className="fa-sharp fa-solid fa-user-plus"></i>
               Sign up
-            </Nav.Link>
+            </NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>

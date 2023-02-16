@@ -4,6 +4,8 @@
 
 .NavBarLink {
     color: #F4F4F4;
+    text-decoration: none;
+    margin-right: 10px;
 }
 
 .NavBarLink:hover{
