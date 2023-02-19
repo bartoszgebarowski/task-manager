@@ -1,0 +1,17 @@
+.FaIconsForm {
+    margin-right : 5px
+}
+
+.FormContainer {
+    max-width: 300px;
+}
+
+.FormLink {
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.FormHeader {
+    margin-top: 10px;
+    font-size: 32px;
+}
