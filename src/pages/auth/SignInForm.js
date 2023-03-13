@@ -3,12 +3,16 @@ import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
-import axios from "axios";
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
-import { setAuthToken } from "../../api/axiosAuth";
-
+import api from "../../api/api";
+import { useContext } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function SignInForm() {
+  const currentUser = useContext(CurrentUserContext);
+  if (currentUser) {
+    window.location.href = "/";
+  }
   const [signInData, setSignInData] = useState({
     username: "",
     password: "",
@@ -26,14 +30,11 @@ function SignInForm() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    axios
+    api
       .post("/profiles/token/", signInData)
       .then((response) => {
         const token = response.data;
-        console.log(response);
         localStorage.setItem("token", JSON.stringify(token));
-        console.log(token);
-        setAuthToken(token.access);
         window.location.href = "/";
       })
       .catch((err) => setErrors(err.response?.data));

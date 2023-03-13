@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { setAuthToken } from "../api/axiosAuth";
+import api from "../api/api";
+
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
-
 export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
@@ -14,8 +13,7 @@ export const CurrentUserProvider = ({ children }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
-        setAuthToken(token);
-        const { data } = await axios.get("profiles/user/");
+        const { data } = await api.get("profiles/user/");
         setCurrentUser(data);
         console.log(data);
       }
