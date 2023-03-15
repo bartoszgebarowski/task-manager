@@ -1,17 +1,23 @@
+import jwt_decode from "jwt-decode";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
-import { useContext } from "react";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../../contexts/CurrentUserContext";
+
 function SignInForm() {
-  const currentUser = useContext(CurrentUserContext);
+  const redirect = useNavigate();
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
   if (currentUser) {
-    window.location.href = "/";
+    console.log("you should not be here");
   }
   const [signInData, setSignInData] = useState({
     username: "",
@@ -34,8 +40,15 @@ function SignInForm() {
       .post("/profiles/token/", signInData)
       .then((response) => {
         const token = response.data;
+        const decodedToken = jwt_decode(token.access);
+        console.log(decodedToken);
+        const user = {
+          username: decodedToken.username,
+          email: decodedToken.email,
+        };
+        setCurrentUser(user);
         localStorage.setItem("token", JSON.stringify(token));
-        window.location.href = "/";
+        redirect("/");
       })
       .catch((err) => setErrors(err.response?.data));
   };

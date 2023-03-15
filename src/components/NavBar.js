@@ -3,12 +3,26 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 
 const NavBar = () => {
-  const currentUser = useContext(CurrentUserContext);
-  const loggedIn = <>{currentUser?.email}</>;
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
+  const logoutHandler = async () => {
+    try {
+      localStorage.removeItem("token");
+      setCurrentUser(null);
+    } catch (err) {}
+  };
+  const loggedIn = (
+    <>
+      <span className="text-white">Logged as : {currentUser?.username}</span>
+      <button onClick={logoutHandler}>Logout</button>
+    </>
+  );
   const loggedOut = (
     <>
       <NavLink

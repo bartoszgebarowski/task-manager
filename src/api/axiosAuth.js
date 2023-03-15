@@ -31,11 +31,11 @@ const onResponseError = async (error) => {
         });
         storedToken.access = rs.data.access;
         localStorage.setItem("token", JSON.stringify(storedToken));
-        // const { data } = await axios.get("profiles/user/");
-        // // localStorage.setItem("user", JSON.stringify(data));
 
         return;
       } catch (_error) {
+        localStorage.removeItem("token");
+        // REMOVE USER STATE
         return Promise.reject(_error);
       }
     }
