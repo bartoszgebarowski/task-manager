@@ -14,17 +14,13 @@ export const CurrentUserProvider = ({ children }) => {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
         const decodedToken = jwt_decode(token.access);
-        console.log(decodedToken);
         const user = {
           username: decodedToken.username,
           email: decodedToken.email,
         };
         setCurrentUser(user);
-        // console.log(data);
       }
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
