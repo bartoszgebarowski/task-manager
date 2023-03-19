@@ -13,8 +13,14 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<h1>Home page</h1>}></Route>
-        <Route path="/signup" element={<SignUpForm />}></Route>
-        <Route path="/signin" element={<SignInForm />}></Route>
+        <Route
+          path="/signup"
+          element={currentUser ? <Navigate to="/" /> : <SignUpForm />}
+        ></Route>
+        <Route
+          path="/signin"
+          element={currentUser ? <Navigate to="/" /> : <SignInForm />}
+        ></Route>
         <Route
           path="/addtask"
           element={currentUser ? <AddTask /> : <Navigate to="/" />}

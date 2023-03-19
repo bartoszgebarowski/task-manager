@@ -91,11 +91,13 @@ function SignInForm() {
           <Button variant="primary" type="submit">
             Submit
           </Button>
-          {errors.non_field_errors?.map((message, idx) => (
-            <Alert key={idx} variant="warning" className="mt-3">
-              {message}
+          {errors.detail ? (
+            <Alert variant="warning" className="mt-2">
+              {errors.detail}
             </Alert>
-          ))}
+          ) : (
+            <></>
+          )}
         </Form>
         <div className="mt-2">
           Don't have an account ?
