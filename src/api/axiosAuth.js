@@ -26,17 +26,26 @@ const onResponseError = async (error) => {
     ) {
       const storedToken = JSON.parse(localStorage.getItem("token"));
       try {
+        const originalRequest = error.config;
+        // const { response } = error;
         const rs = await axios.post("profiles/token/refresh/", {
           refresh: storedToken.refresh,
         });
         storedToken.access = rs.data.access;
         localStorage.setItem("token", JSON.stringify(storedToken));
-
-        return;
-      } catch (_error) {
+        const data =
+          typeof originalRequest.data === "string"
+            ? JSON.parse(originalRequest.data)
+            : originalRequest.data;
+        return axios({
+          ...originalRequest,
+          data,
+          headers: { Authorization: `Bearer ${rs.data.access}` },
+        });
+      } catch (error) {
         localStorage.removeItem("token");
         // REMOVE USER STATE
-        return Promise.reject(_error);
+        return Promise.reject(error);
       }
     }
   }
