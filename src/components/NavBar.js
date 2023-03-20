@@ -27,6 +27,14 @@ const NavBar = () => {
         <i className="fa-regular fa-square-plus"></i>
         Add task
       </NavLink>
+      <NavLink
+        to="tasks"
+        className={styles.NavBarLink}
+        style={({ isActive }) => ({ color: isActive ? "orange" : "" })}
+      >
+        <i className="fa-solid fa-bars"></i>
+        Tasks
+      </NavLink>
     </>
   );
 

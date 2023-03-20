@@ -6,6 +6,8 @@ import "./api/axiosDefaults.js";
 import SignInForm from "./pages/auth/SignInForm";
 import AddTask from "./pages/tasks/AddTask";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
+import TaskPage from "./pages/tasks/TaskPage";
+import TasksPage from "./pages/tasks/TasksPage";
 function App() {
   const currentUser = useCurrentUser();
   return (
@@ -25,6 +27,16 @@ function App() {
           path="/addtask"
           element={currentUser ? <AddTask /> : <Navigate to="/" />}
         ></Route>
+        <Route path="tasks">
+          <Route
+            path=":id"
+            element={currentUser ? <TaskPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path=""
+            element={currentUser ? <TasksPage /> : <Navigate to="/" />}
+          />
+        </Route>
         <Route path="*" element={<Navigate to="/" />}></Route>
       </Routes>
     </div>
