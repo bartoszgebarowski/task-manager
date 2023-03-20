@@ -1,4 +1,3 @@
-import jwt_decode from "jwt-decode";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
@@ -11,7 +10,7 @@ import {
   useCurrentUser,
   useSetCurrentUser,
 } from "../../contexts/CurrentUserContext";
-
+import getUserDetailsFrontToken from "../../utils/utils";
 function SignInForm() {
   const redirect = useNavigate();
   const currentUser = useCurrentUser();
@@ -40,13 +39,7 @@ function SignInForm() {
       .post("/profiles/token/", signInData)
       .then((response) => {
         const token = response.data;
-        const decodedToken = jwt_decode(token.access);
-        console.log(decodedToken);
-        const user = {
-          username: decodedToken.username,
-          email: decodedToken.email,
-        };
-        setCurrentUser(user);
+        setCurrentUser(getUserDetailsFrontToken(token));
         localStorage.setItem("token", JSON.stringify(token));
         redirect("/");
       })

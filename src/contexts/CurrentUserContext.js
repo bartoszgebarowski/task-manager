@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
-
+import getUserDetailsFrontToken from "../utils/utils";
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
 export const useCurrentUser = () => useContext(CurrentUserContext);
@@ -13,12 +12,7 @@ export const CurrentUserProvider = ({ children }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       if (token) {
-        const decodedToken = jwt_decode(token.access);
-        const user = {
-          username: decodedToken.username,
-          email: decodedToken.email,
-        };
-        setCurrentUser(user);
+        setCurrentUser(getUserDetailsFrontToken(token));
       }
     } catch (err) {}
   };
