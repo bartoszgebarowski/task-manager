@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import getUserDetailsFrontToken from "../utils/utils";
+import { getUserDetailsFrontToken } from "../utils/utils";
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
 export const useCurrentUser = () => useContext(CurrentUserContext);
@@ -17,7 +17,19 @@ export const CurrentUserProvider = ({ children }) => {
     } catch (err) {}
   };
 
+  const handleLocalStorage = async () => {
+    try {
+      window.addEventListener("storage", () => {
+        const userToken = localStorage.getItem("token");
+        if (!userToken) {
+          setCurrentUser(null);
+        }
+      });
+    } catch (err) {}
+  };
+
   useEffect(() => {
+    handleLocalStorage();
     handleMount();
   }, []);
 

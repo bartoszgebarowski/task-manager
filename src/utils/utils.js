@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-let getUserDetailsFrontToken = (token) => {
+export const getUserDetailsFrontToken = (token) => {
   const decodedToken = jwt_decode(token.access);
 
   const user = {
@@ -10,5 +10,3 @@ let getUserDetailsFrontToken = (token) => {
   };
   return user;
 };
-
-export default getUserDetailsFrontToken;
