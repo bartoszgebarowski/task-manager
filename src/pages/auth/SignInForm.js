@@ -7,17 +7,14 @@ import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
 import {
-  useCurrentUser,
   useSetCurrentUser,
+  useCurrentUser,
 } from "../../contexts/CurrentUserContext";
-import getUserDetailsFrontToken from "../../utils/utils";
+import { getUserDetailsFrontToken } from "../../utils/utils";
 function SignInForm() {
   const redirect = useNavigate();
-  const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
-  if (currentUser) {
-    console.log("you should not be here");
-  }
+  const currentUser = useCurrentUser();
   const [signInData, setSignInData] = useState({
     username: "",
     password: "",
@@ -48,57 +45,65 @@ function SignInForm() {
 
   return (
     <>
-      <h1 className={styles.FormHeader}>Sign in</h1>
-      <Container className={`justify-content-center ${styles.FormContainer}`}>
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Username"
-              name="username"
-              value={username}
-              onChange={eventHandler}
-            />
-          </Form.Group>
-          {errors.username?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
-          ))}
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={eventHandler}
-            />
-          </Form.Group>
-          {errors.password?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
-          ))}
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-          {errors.detail ? (
-            <Alert variant="warning" className="mt-2">
-              {errors.detail}
-            </Alert>
-          ) : (
-            <></>
-          )}
-        </Form>
-        <div className="mt-2">
-          Don't have an account ?
-          <Link className={styles.FormLink} to="/signup">
-            <span>Sign in</span>
-          </Link>
-        </div>
-      </Container>
+      {currentUser ? (
+        redirect("/")
+      ) : (
+        <>
+          <h1 className={styles.FormHeader}>Sign in</h1>
+          <Container
+            className={`justify-content-center ${styles.FormContainer}`}
+          >
+            <Form onSubmit={submitHandler}>
+              <Form.Group className="mb-3" controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Username"
+                  name="username"
+                  value={username}
+                  onChange={eventHandler}
+                />
+              </Form.Group>
+              {errors.username?.map((message, idx) => (
+                <Alert variant="warning" key={idx}>
+                  {message}
+                </Alert>
+              ))}
+              <Form.Group className="mb-3" controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={password}
+                  onChange={eventHandler}
+                />
+              </Form.Group>
+              {errors.password?.map((message, idx) => (
+                <Alert variant="warning" key={idx}>
+                  {message}
+                </Alert>
+              ))}
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+              {errors.detail ? (
+                <Alert variant="warning" className="mt-2">
+                  {errors.detail}
+                </Alert>
+              ) : (
+                <></>
+              )}
+            </Form>
+            <div className="mt-2">
+              Don't have an account ?
+              <Link className={styles.FormLink} to="/signup">
+                <span>Sign in</span>
+              </Link>
+            </div>
+          </Container>
+        </>
+      )}
     </>
   );
 }

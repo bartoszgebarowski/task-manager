@@ -12,14 +12,14 @@ function TaskPage() {
       api
         .get(`/tasks/${id}`)
         .then((response) => {
-          const { data: task } = response;
-          setTask({ results: [task] });
+          const { data } = response;
+          setTask({ results: data });
         })
         .catch((err) => console.log(err));
     };
     handleMount();
   }, [id]);
-  return <>{currentUser ? <Task {...task.results[0]} isTaskPage /> : {}}</>;
+  return <>{currentUser ? <Task {...task.results} isTaskPage /> : <></>}</>;
 }
 
 export default TaskPage;

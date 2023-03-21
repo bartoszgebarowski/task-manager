@@ -5,11 +5,9 @@ import { Container } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
 import styles from "../../styles/SignInUpForm.module.css";
-import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
 
 function AddTask() {
-  const setCurrentUser = useSetCurrentUser();
   const redirect = useNavigate();
   const [createTaskData, setCreateTaskData] = useState({
     title: "",
@@ -56,11 +54,7 @@ function AddTask() {
           <></>
         )
       )
-      .catch((err) =>
-        err.response.status === 401
-          ? setCurrentUser(null)
-          : setErrors(err.response?.data)
-      );
+      .catch((err) => setErrors(err.response?.data));
   };
 
   return (
@@ -120,6 +114,13 @@ function AddTask() {
           >
             Go back
           </Button>
+          {errors.detail ? (
+            <Alert variant="warning" className="mt-2">
+              {errors.detail}
+            </Alert>
+          ) : (
+            <></>
+          )}
         </Form>
       </Container>
     </>
