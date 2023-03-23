@@ -10,3 +10,9 @@ export const getUserDetailsFrontToken = (token) => {
   };
   return user;
 };
+
+export const changeCursor = () => {
+  document.querySelectorAll(".pointer").forEach((element) => {
+    element.style.cursor = "pointer";
+  });
+};

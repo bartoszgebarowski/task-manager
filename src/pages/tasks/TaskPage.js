@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import Task from "./Task";
@@ -7,6 +7,7 @@ function TaskPage() {
   const { id } = useParams();
   const [task, setTask] = useState({ results: [] });
   const currentUser = useCurrentUser();
+  const redirect = useNavigate();
   useEffect(() => {
     const handleMount = async () => {
       api
@@ -15,11 +16,33 @@ function TaskPage() {
           const { data } = response;
           setTask({ results: data });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+          err.response.status === 404
+            ? redirect("/tasks")
+            : err.response.status === 401
+            ? redirect("/")
+            : {}
+        );
     };
     handleMount();
-  }, [id]);
-  return <>{currentUser ? <Task {...task.results} isTaskPage /> : <></>}</>;
+  }, [id, redirect, currentUser]);
+  return (
+    <>
+      {task.length !== 0 ? (
+        <>
+          {currentUser ? (
+            <Task {...task.results} setTask={setTask} />
+          ) : (
+            <>
+              <Task {...task.results} noTasks />
+            </>
+          )}
+        </>
+      ) : (
+        <></>
+      )}
+    </>
+  );
 }
 
 export default TaskPage;
