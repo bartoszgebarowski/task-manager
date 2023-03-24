@@ -3,9 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import Task from "./Task";
+
 function TaskPage() {
   const { id } = useParams();
   const [task, setTask] = useState({ results: [] });
+  const [isLoaded, setIsLoaded] = useState(false);
   const currentUser = useCurrentUser();
   const redirect = useNavigate();
   useEffect(() => {
@@ -15,6 +17,7 @@ function TaskPage() {
         .then((response) => {
           const { data } = response;
           setTask({ results: data });
+          setIsLoaded(true);
         })
         .catch((err) =>
           err.response.status === 404
@@ -28,18 +31,24 @@ function TaskPage() {
   }, [id, redirect, currentUser]);
   return (
     <>
-      {task.length !== 0 ? (
+      {!isLoaded ? (
+        <>Loading ...</>
+      ) : (
         <>
-          {currentUser ? (
-            <Task {...task.results} setTask={setTask} />
-          ) : (
+          {task.length !== 0 ? (
             <>
-              <Task {...task.results} noTasks />
+              {currentUser ? (
+                <Task {...task.results} setTask={setTask} />
+              ) : (
+                <>
+                  <Task {...task.results} noTasks />
+                </>
+              )}
             </>
+          ) : (
+            <></>
           )}
         </>
-      ) : (
-        <></>
       )}
     </>
   );

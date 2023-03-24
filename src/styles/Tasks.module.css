@@ -1,0 +1,13 @@
+.Taskaction {
+    text-decoration: none;
+    color: black;
+}
+
+.Taskaction:hover {
+    color: orange;
+    transition: 0.5s;
+}
+
+.Minwidth {
+    min-width: 100px;
+}

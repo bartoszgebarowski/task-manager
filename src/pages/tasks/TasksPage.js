@@ -5,10 +5,11 @@ import Task from "./Task";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Container } from "react-bootstrap";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import Table from "react-bootstrap/Table";
+import styles from "../../styles/Tasks.module.css";
 function TasksPage() {
   const [tasks, setTasks] = useState({ results: [] });
+  const [isLoaded, setIsLoaded] = useState(false);
   const redirect = useNavigate();
   const currentUser = useCurrentUser();
   useEffect(() => {
@@ -18,13 +19,10 @@ function TasksPage() {
         .then((response) => {
           const { data } = response;
           setTasks({ results: data });
+          setIsLoaded(true);
         })
         .catch((err) =>
-          err.response.status === 401
-            ? redirect("/signin")
-            : err.response.status === 404
-            ? redirect("/tasks")
-            : {}
+          err.response.status === 401 ? redirect("/signin") : {}
         );
     };
 
@@ -32,31 +30,50 @@ function TasksPage() {
   }, [currentUser, redirect]);
   return (
     <>
-      {tasks.results.length === 0 ? (
-        <>
-          <h1 className="mb-2">Tasks page</h1>
-          <Task isTasksPage noTasks />
-        </>
-      ) : currentUser ? (
-        <Container fluid>
-          <h1 className="mb-2">Tasks page</h1>
-          <Row>
-            <Col className="text-center">Author</Col>
-            <Col className="text-center">Title</Col>
-            <Col className="text-center">Description</Col>
-            <Col className="text-center">Status</Col>
-            <Col className="text-center">Comments</Col>
-            <Col className="text-center">Updated</Col>
-            <Col className="text-center">Actions</Col>
-          </Row>
-          {tasks.results.map((task) => {
-            return (
-              <Task key={task.id} {...task} isTasksPage setTasks={setTasks} />
-            );
-          })}
-        </Container>
+      {!isLoaded ? (
+        <>Loading ...</>
       ) : (
-        <></>
+        <>
+          {tasks.results.length === 0 ? (
+            <>
+              <h1 className="mb-2">Tasks page</h1>
+              <Task isTasksPage noTasks />
+            </>
+          ) : currentUser ? (
+            <Container fluid>
+              <h1 className="mb-2">Tasks page</h1>
+              <Table responsive size="sm" className="mt-2">
+                <thead>
+                  <tr className="test">
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Comments</th>
+                    <th className={styles.Minwidth}>Updated</th>
+                    <th className={styles.Minwidth}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tasks.results.map((task, idx) => {
+                    return (
+                      <Task
+                        key={task.id}
+                        {...task}
+                        isTasksPage
+                        setTasks={setTasks}
+                        idx={idx}
+                      />
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Container>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </>
   );

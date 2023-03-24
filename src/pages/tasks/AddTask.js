@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
@@ -6,8 +6,10 @@ import { Alert } from "react-bootstrap";
 import api from "../../api/api";
 import styles from "../../styles/SignInUpForm.module.css";
 import { useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 function AddTask() {
+  const currentUser = useCurrentUser();
   const redirect = useNavigate();
   const [createTaskData, setCreateTaskData] = useState({
     title: "",
@@ -57,6 +59,14 @@ function AddTask() {
       .catch((err) => setErrors(err.response?.data));
   };
 
+  useEffect(() => {
+    const handleMount = async () => {
+      if (!currentUser) {
+        redirect("/signin");
+      }
+    };
+    handleMount();
+  }, [currentUser, redirect]);
   return (
     <>
       {successMessage === true ? (
