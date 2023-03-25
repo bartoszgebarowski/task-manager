@@ -1,4 +1,3 @@
-import "./App.css";
 import NavBar from "./components/NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import SignUpForm from "./pages/auth/SignUpForm";
@@ -7,9 +6,10 @@ import SignInForm from "./pages/auth/SignInForm";
 import AddTask from "./pages/tasks/AddTask";
 import TaskPage from "./pages/tasks/TaskPage";
 import TasksPage from "./pages/tasks/TasksPage";
+import styles from "../src/App.module.css";
 function App() {
   return (
-    <div className="App">
+    <div className={styles.App}>
       <NavBar />
       <Routes>
         <Route path="/" element={<h1>Home page</h1>}></Route>

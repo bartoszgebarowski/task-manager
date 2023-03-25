@@ -26,3 +26,17 @@ export const truncateChars = (str, isDate) => {
     return "-";
   }
 };
+
+export const handleCheckbox = async (isStatus) => {
+  const checkbox = document.getElementById("completed");
+  if (isStatus) {
+    checkbox.checked = true;
+  } else {
+    checkbox.checked = false;
+  }
+};
+
+export const resetCheckbox = async () => {
+  const checkbox = document.getElementById("completed");
+  checkbox.checked = false;
+};

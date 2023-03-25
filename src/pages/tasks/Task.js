@@ -7,6 +7,8 @@ import { changeCursor } from "../../utils/utils";
 import { Link } from "react-router-dom";
 import { truncateChars } from "../../utils/utils";
 import styles from "../../styles/Tasks.module.css";
+import Button from "react-bootstrap/Button";
+import Accordion from "react-bootstrap/Accordion";
 
 const Task = (props) => {
   const {
@@ -25,11 +27,13 @@ const Task = (props) => {
     idx,
   } = props;
   const ownerDeconstructed = { ...owner };
+
   const redirect = useNavigate();
   const currentUser = useCurrentUser();
   let actionBar;
   let actionBarSingle;
   let completedStatus;
+  let completedStatusWorded;
 
   const removeTask = async () => {
     api
@@ -69,12 +73,24 @@ const Task = (props) => {
       );
     }
   }
+
+  if (currentUser) {
+    if (completed) {
+      completedStatusWorded = <span>Completed</span>;
+    } else {
+      completedStatusWorded = <span>Not completed</span>;
+    }
+  }
+
   if (currentUser) {
     if (owner_id === currentUser.id) {
       actionBar = (
         <>
           <span className="me-2">
-            <Link to={`${id}`}>
+            <Link
+              to={`${id}`}
+              aria-label={`Link to detailed Task page with ${title} title, created by ${ownerDeconstructed.username}`}
+            >
               <i
                 className={`fa-solid fa-magnifying-glass ${styles.Taskaction}`}
               ></i>
@@ -97,7 +113,10 @@ const Task = (props) => {
       actionBar = (
         <>
           <span className="me-2">
-            <Link to={`${id}`}>
+            <Link
+              to={`${id}`}
+              aria-label={`Link to detailed Task page with ${title} title, created by ${ownerDeconstructed.username}`}
+            >
               <i
                 className={`fa-solid fa-magnifying-glass ${styles.Taskaction}`}
               ></i>
@@ -112,11 +131,48 @@ const Task = (props) => {
     if (owner_id === currentUser.id) {
       actionBarSingle = (
         <>
-          <button onClick={removeTask}></button>
+          <Button
+            variant="dark"
+            className="ms-1"
+            size="sm"
+            aria-label={`Edit task with ${title}`}
+          >
+            Edit task
+          </Button>
+          <Button
+            variant="danger"
+            className="ms-1"
+            size="sm"
+            aria-label={`Delete task with ${title} title`}
+            onClick={removeTask}
+          >
+            Delete task
+          </Button>
+          <Button
+            variant="warning"
+            className="ms-1"
+            size="sm"
+            aria-label="Go back by 1 page"
+            onClick={() => redirect(-1)}
+          >
+            Go back
+          </Button>
         </>
       );
     } else {
-      actionBarSingle = <>Single edit</>;
+      actionBarSingle = (
+        <>
+          <Button
+            variant="warning"
+            className="ms-1"
+            size="sm"
+            aria-label="Go back by 1 page"
+            onClick={() => redirect(-1)}
+          >
+            Go back
+          </Button>
+        </>
+      );
     }
   }
 
@@ -148,8 +204,40 @@ const Task = (props) => {
         </>
       ) : (
         <>
-          <Container>
-            {ownerDeconstructed.username} {actionBarSingle}
+          <Container fluid>
+            <h1 className={styles.WordBreakAll}>{title} page</h1>
+          </Container>
+          <Container fluid className="text-start">
+            <span className="ms-2">Creator: </span>
+            <span>{ownerDeconstructed.username}</span>
+          </Container>
+          <Container fluid className="text-start">
+            <span className="ms-2">Status: </span>
+            <span> {completedStatusWorded}</span>
+          </Container>
+          <Container fluid className="text-end mt-2">
+            {actionBarSingle}
+          </Container>
+          <Accordion defaultActiveKey={0} flush className="mt-2">
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Description :</Accordion.Header>
+              <Accordion.Body>
+                {description ? description : "No description"}
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+          <Accordion defaultActiveKey={2} flush className="mt-2">
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>
+                Comments: {`(${messages.length})`}
+              </Accordion.Header>
+              <Accordion.Body>Test body</Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+          <Container fluid className="text-end mt-2">
+            <Button type="primary" size="sm" className="ms-2">
+              Add comment
+            </Button>
           </Container>
         </>
       )}

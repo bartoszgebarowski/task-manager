@@ -4,11 +4,12 @@ import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
-import styles from "../../styles/SignInUpForm.module.css";
+import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-
+import { resetCheckbox } from "../../utils/utils";
 function AddTask() {
+  const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
   const redirect = useNavigate();
   const [createTaskData, setCreateTaskData] = useState({
@@ -47,6 +48,7 @@ function AddTask() {
       .then((response) =>
         response.status === 201 ? (
           (setErrors(""),
+          resetCheckbox(),
           setSuccessMessage(true),
           setCreateTaskData({ title: "", description: "", completed: false }),
           setTimeout(() => {
@@ -61,12 +63,12 @@ function AddTask() {
 
   useEffect(() => {
     const handleMount = async () => {
-      if (!currentUser) {
+      if (!token) {
         redirect("/signin");
       }
     };
     handleMount();
-  }, [currentUser, redirect]);
+  }, [token, redirect, currentUser]);
   return (
     <>
       {successMessage === true ? (

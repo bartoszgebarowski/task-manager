@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "../../styles/SignInUpForm.module.css";
+import styles from "../../styles/Forms.module.css";
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
