@@ -97,9 +97,14 @@ const Task = (props) => {
             </Link>
           </span>
           <span className="me-2">
-            <i
-              className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
-            ></i>
+            <Link
+              to={`edittask/${id}`}
+              aria-label={`Link to edit Task page with ${title} title, created by ${ownerDeconstructed.username}`}
+            >
+              <i
+                className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
+              ></i>
+            </Link>
           </span>
           <span className="me-2">
             <i
@@ -131,14 +136,16 @@ const Task = (props) => {
     if (owner_id === currentUser.id) {
       actionBarSingle = (
         <>
-          <Button
-            variant="dark"
-            className="ms-1"
-            size="sm"
-            aria-label={`Edit task with ${title}`}
-          >
-            Edit task
-          </Button>
+          <Link to={`../edittask/${id}`}>
+            <Button
+              variant="dark"
+              className="ms-1"
+              size="sm"
+              aria-label={`Edit task with ${title}`}
+            >
+              Edit task
+            </Button>
+          </Link>
           <Button
             variant="danger"
             className="ms-1"

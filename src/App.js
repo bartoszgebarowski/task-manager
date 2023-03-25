@@ -7,6 +7,7 @@ import AddTask from "./pages/tasks/AddTask";
 import TaskPage from "./pages/tasks/TaskPage";
 import TasksPage from "./pages/tasks/TasksPage";
 import styles from "../src/App.module.css";
+import EditTask from "./pages/tasks/EditTask";
 function App() {
   return (
     <div className={styles.App}>
@@ -19,6 +20,7 @@ function App() {
         <Route path="tasks">
           <Route path=":id" element={<TaskPage />} />
           <Route path="" element={<TasksPage />} />
+          <Route path="edittask/:id" element={<EditTask />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />}></Route>
       </Routes>
