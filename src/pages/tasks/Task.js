@@ -9,7 +9,7 @@ import { truncateChars } from "../../utils/utils";
 import styles from "../../styles/Tasks.module.css";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-import Comments from "./Comments";
+import Comments from "../comments/Comments";
 const Task = (props) => {
   const {
     id,
@@ -258,9 +258,14 @@ const Task = (props) => {
             </Accordion.Item>
           </Accordion>
           <Container fluid className="text-end mt-2">
-            <Button type="primary" size="sm" className="ms-2">
-              Add comment
-            </Button>
+            <Link
+              to={`../${id}/addcomment`}
+              aria-label={`Link to Add comment form with ${title} title, created by ${ownerDeconstructed.username}`}
+            >
+              <Button type="primary" size="sm" className="ms-2">
+                Add comment
+              </Button>
+            </Link>
           </Container>
         </>
       )}

@@ -8,6 +8,7 @@ import TaskPage from "./pages/tasks/TaskPage";
 import TasksPage from "./pages/tasks/TasksPage";
 import styles from "../src/App.module.css";
 import EditTask from "./pages/tasks/EditTask";
+import AddComment from "./pages/comments/AddComment";
 function App() {
   return (
     <div className={styles.App}>
@@ -21,6 +22,7 @@ function App() {
           <Route path=":id" element={<TaskPage />} />
           <Route path="" element={<TasksPage />} />
           <Route path="edittask/:id" element={<EditTask />} />
+          <Route path=":id/addcomment" element={<AddComment />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />}></Route>
       </Routes>
