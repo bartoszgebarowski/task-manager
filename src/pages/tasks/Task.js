@@ -9,7 +9,7 @@ import { truncateChars } from "../../utils/utils";
 import styles from "../../styles/Tasks.module.css";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
-
+import Comments from "./Comments";
 const Task = (props) => {
   const {
     id,
@@ -238,7 +238,23 @@ const Task = (props) => {
               <Accordion.Header>
                 Comments: {`(${messages.length})`}
               </Accordion.Header>
-              <Accordion.Body>Test body</Accordion.Body>
+              <Accordion.Body>
+                {messages.length !== 0 ? (
+                  <>
+                    {messages.map((message) => {
+                      return (
+                        <Comments
+                          key={message.id}
+                          {...message}
+                          messages={messages}
+                        />
+                      );
+                    })}
+                  </>
+                ) : (
+                  <Container fluid>No comments available</Container>
+                )}
+              </Accordion.Body>
             </Accordion.Item>
           </Accordion>
           <Container fluid className="text-end mt-2">

@@ -11,3 +11,11 @@
 .Minwidth {
     min-width: 100px;
 }
+
+.WordBreakAll {
+    word-break: break-all;
+}
+
+.BorderBottom {
+    border-bottom: 1px solid black;
+}
