@@ -20,7 +20,6 @@ function AddComment() {
   const [successMessage, setSuccessMessage] = useState(false);
   const { comment } = createComment;
 
-  console.log(id);
   const eventHandler = (event) => {
     setCreateComment({
       ...createComment,
@@ -40,7 +39,7 @@ function AddComment() {
         response.status === 201 ? (
           (setErrors(""),
           setSuccessMessage(true),
-          setCreateComment({ comment: "" }),
+          setCreateComment({ comment: "", task_id: id }),
           setTimeout(() => {
             setSuccessMessage(false);
           }, 5000))

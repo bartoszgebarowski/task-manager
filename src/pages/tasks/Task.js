@@ -10,6 +10,7 @@ import styles from "../../styles/Tasks.module.css";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
 import Comments from "../comments/Comments";
+
 const Task = (props) => {
   const {
     id,
@@ -225,16 +226,16 @@ const Task = (props) => {
           <Container fluid className="text-end mt-2">
             {actionBarSingle}
           </Container>
-          <Accordion defaultActiveKey={0} flush className="mt-2">
-            <Accordion.Item eventKey="1">
+          <Accordion flush className="mt-2">
+            <Accordion.Item eventKey="0">
               <Accordion.Header>Description :</Accordion.Header>
               <Accordion.Body>
                 {description ? description : "No description"}
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion defaultActiveKey={2} flush className="mt-2">
-            <Accordion.Item eventKey="3">
+          <Accordion flush className="mt-2">
+            <Accordion.Item eventKey="1">
               <Accordion.Header>
                 Comments: {`(${messages.length})`}
               </Accordion.Header>
@@ -247,6 +248,7 @@ const Task = (props) => {
                           key={message.id}
                           {...message}
                           messages={messages}
+                          setTask={setTask}
                         />
                       );
                     })}
