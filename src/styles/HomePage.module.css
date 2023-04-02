@@ -1,0 +1,19 @@
+.FlexContainer {
+    display: flex;
+    justify-content: center;
+}
+
+
+.ImageContainer {
+    max-height: 480px;
+    max-width: 480px;
+}
+
+.ImageContainer img {
+    width: 100%;
+    height: 100%;
+}
+
+.WordBreakAll {
+    word-break: break-all;
+}
