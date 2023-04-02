@@ -4,6 +4,7 @@ import styles from "../../styles/Tasks.module.css";
 import { truncateChars } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import { Link } from "react-router-dom";
 const Comments = (props) => {
   const currentUser = useCurrentUser();
   const {
@@ -18,7 +19,6 @@ const Comments = (props) => {
   } = props;
 
   const redirect = useNavigate();
-  console.log(messages);
   const removeComment = async () => {
     api
       .delete(`/tasks/${task_id}/comments/${id}`)
@@ -59,9 +59,11 @@ const Comments = (props) => {
       actionBar = (
         <>
           <span className="me-2">
-            <i
-              className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
-            ></i>
+            <Link to={`editcomment/${id}`}>
+              <i
+                className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
+              ></i>
+            </Link>
           </span>
           <span className="me-2">
             <i
