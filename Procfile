@@ -1,1 +1,0 @@
-web: server -s build
