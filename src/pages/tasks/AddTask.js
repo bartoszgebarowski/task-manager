@@ -116,13 +116,18 @@ function AddTask() {
               label="Completed ?"
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            aria-label="Create a new task"
+          >
             Create task
           </Button>
           <Button
             variant="warning"
             className="ms-2"
             onClick={() => redirect(-1)}
+            aria-label="Go back by one page"
           >
             Go back
           </Button>

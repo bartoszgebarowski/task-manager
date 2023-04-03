@@ -84,7 +84,11 @@ function SignInForm() {
                   {message}
                 </Alert>
               ))}
-              <Button variant="primary" type="submit">
+              <Button
+                variant="primary"
+                type="submit"
+                aria-label="Sign in into application"
+              >
                 Submit
               </Button>
               {errors.detail ? (

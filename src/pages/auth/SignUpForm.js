@@ -69,7 +69,11 @@ const SignUpForm = () => {
               {message}
             </Alert>
           ))}
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            aria-label="Create an account"
+          >
             Submit
           </Button>
           {errors.non_field_errors?.map((message, idx) => (

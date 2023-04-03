@@ -59,7 +59,10 @@ const Comments = (props) => {
       actionBar = (
         <>
           <span className="me-2">
-            <Link to={`editcomment/${id}`}>
+            <Link
+              to={`editcomment/${id}`}
+              aria-label={`Go to edit comment ${id} form`}
+            >
               <i
                 className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
               ></i>

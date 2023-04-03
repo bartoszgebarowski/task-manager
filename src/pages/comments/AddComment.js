@@ -92,13 +92,18 @@ function AddComment() {
               {message}
             </Alert>
           ))}
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            aria-label="Create a new comment"
+          >
             Add comment
           </Button>
           <Button
             variant="warning"
             className="ms-2"
             onClick={() => redirect(-1)}
+            aria-label="Go back by one page"
           >
             Go back
           </Button>
