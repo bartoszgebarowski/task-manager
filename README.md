@@ -1,5 +1,5 @@
 # Task manager
-Task Manager is frontend application that allows users to to create, edit, remove tasks and share their opinions in form a comments. 
+Task Manager is a frontend application that allows users to create, edit, remove tasks and share their opinions in the form of comments. 
 
 ![Am i responsive screenshot](readme/images/am-i-responsive.png)
 ## Strategy plane 
@@ -43,13 +43,13 @@ The base setup epic is for all stories needed for the base setup of the applicat
 The prototype epic is for all stories needed to create an application prototype. Creating a prototype with a working backend, was essential in building new features.
 
 3. Profiles
-The profiles epic is for all stories related to the creation of user profiles and user authentication.
+The profiles epic is for all stories related to the creation of user profiles (accounts) and user authentication.
 
 4. Tasks
 The tasks epic is for all stories related to tasks. Tasks are core content that the user can view and interact with.
 
 5. Comments
-The epic cover the user stories related to CRUD operations on comments
+The epic cover the user stories related to creating, editing, updating or removing comments
 
 6. Standalone issues
 This epic is for all stories related to functionalities that don't have their epic. Dependant or tiny features that are not critical but influence the overall experience belongs to this epic.
@@ -70,7 +70,7 @@ This epic is for document-related stories. It provides essential documentation t
 2. Prototype
 * As a developer, I would like to have a local database setup, so I can interact with it, and test a frontend application
 3. Profiles
-* As a user, I want to be able to create a profile so that I can application content in full
+* As a user, I want to be able to create a profile (account) so that I can application content in full
 * As a user, I want to be able to sign in to the application so that I can interact with the application's content
 4. Tasks
 * As a user, I want to be able to view, edit or delete a task, so I can organize various actions if I change my mind
@@ -116,12 +116,12 @@ User story:
 
 Implementation:
 
-Navigation bar was implemented, that collapses on smaller screen sizes
+A navigation bar was implemented that collapses on smaller screen sizes
 
 ![Navbar](readme/images/navbar.png)
 
 User story:
-`As a user, I want to be able to create a profile so that I can application content in full`
+`As a user, I want to be able to create a profile (account) so that I can access application content in full`
 
 Implementation: 
 
@@ -143,7 +143,7 @@ User story:
 
 Implementation: 
 
-All tasks page was implemented to allow a user to view all tasks, where basic information is displayed in the form of a responsive table. For convenience, the action bar is also for user disposal that reflects ownership status. 
+All tasks page was implemented to allow a user to view all tasks, where basic information is displayed in the form of a responsive table. For convenience, the action bar is also for user disposal, which reflects ownership status. 
 
 ![All tasks page](readme/images/all-tasks-page-table.png)
 
@@ -236,7 +236,7 @@ Edit comment form was implemented. Furthermore, action bar is present to allow a
 
 ### Colour scheme
 The main colour is white (#FFFFFF)
-Navbar uses dark theme from React Bootstrap framework.  Yellow (#f7f705) and orange colours were implemented to represent status and interactive elements.
+Navbar uses a dark theme from React Bootstrap framework.  Yellow (#f7f705) and orange colours were implemented to represent status and interactive elements.
 
 [Back to Table of contents](#table-of-contents)
 ## Technologies
