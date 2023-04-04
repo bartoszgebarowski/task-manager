@@ -14,11 +14,13 @@ function TaskPage() {
     const handleMount = async () => {
       api
         .get(`/tasks/${id}`)
+        // set Task data on successful request
         .then((response) => {
           const { data } = response;
           setTask({ results: data });
           setIsLoaded(true);
         })
+        // Catch errors and redirect user based on error status
         .catch((err) =>
           err.response.status === 404
             ? redirect("/tasks")

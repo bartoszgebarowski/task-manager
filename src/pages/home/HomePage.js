@@ -6,6 +6,7 @@ import styles from "../../styles/HomePage.module.css";
 import welcomeLogoLogged from "../../assets/task_manager_welcome_logo_logged.jpg";
 import welcomeLogo from "../../assets/task_manager_welcome_logo.jpg";
 import { Container } from "react-bootstrap";
+
 function HomePage() {
   const currentUser = useCurrentUser();
   const [isLoaded, setIsLoaded] = useState(false);

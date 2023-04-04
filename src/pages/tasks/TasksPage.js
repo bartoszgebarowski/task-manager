@@ -7,6 +7,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Container } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import styles from "../../styles/Tasks.module.css";
+
 function TasksPage() {
   const [tasks, setTasks] = useState({ results: [] });
   const [isLoaded, setIsLoaded] = useState(false);
@@ -16,11 +17,13 @@ function TasksPage() {
     const handleMount = async () => {
       api
         .get("/tasks/")
+        // Set Tasks data on successful request
         .then((response) => {
           const { data } = response;
           setTasks({ results: data });
           setIsLoaded(true);
         })
+        // Catch errors and redirect user to sign in page on error status 401
         .catch((err) =>
           err.response.status === 401 ? redirect("/signin") : {}
         );

@@ -6,6 +6,7 @@ import styles from "../../styles/Forms.module.css";
 import axios from "axios";
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
+
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
     username: "",
@@ -13,6 +14,7 @@ const SignUpForm = () => {
   });
   const { username, password } = signUpData;
 
+  //  Handle changes to the input fields in the form
   const eventHandler = (event) => {
     setSignUpData({
       ...signUpData,
@@ -24,12 +26,15 @@ const SignUpForm = () => {
 
   const redirect = useNavigate();
 
+  // Submit data to create user
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
       await axios.post("/profiles/create-user/", signUpData);
+      //  Redirect user to sign in page
       redirect("../signin");
     } catch (err) {
+      // Catch errors returned from data validation
       setErrors(err.response?.data);
     }
   };

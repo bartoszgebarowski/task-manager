@@ -11,12 +11,16 @@ import {
 const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+
+  // Set current user to null and logout the user
   const logoutHandler = async () => {
     try {
       localStorage.removeItem("token");
       setCurrentUser(null);
     } catch (err) {}
   };
+
+  // Links in the Navbar for authenticated users
   const actionBar = (
     <>
       <NavLink
@@ -38,11 +42,14 @@ const NavBar = () => {
     </>
   );
 
+  // Display current user, username
   const loggedAs = (
     <Nav className="me-auto text-white">
       <span className="me-auto">Logged as : {currentUser?.username}</span>
     </Nav>
   );
+
+  // Logout button
   const loggedOutButton = (
     <>
       <NavLink className={styles.NavBarLink} onClick={logoutHandler}>
@@ -51,6 +58,8 @@ const NavBar = () => {
       </NavLink>
     </>
   );
+
+  // Icons for not authenticated users
   const loggedOutIcons = (
     <>
       <NavLink

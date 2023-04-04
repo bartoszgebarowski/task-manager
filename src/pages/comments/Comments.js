@@ -5,6 +5,7 @@ import { truncateChars } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { Link } from "react-router-dom";
+
 const Comments = (props) => {
   const currentUser = useCurrentUser();
   const {
@@ -19,10 +20,13 @@ const Comments = (props) => {
   } = props;
 
   const redirect = useNavigate();
+
+  // Handle removing comment
   const removeComment = async () => {
     api
       .delete(`/tasks/${task_id}/comments/${id}`)
       .then(() => {
+        // Filter messages by id
         let filterMessages = (task) => {
           const filteredMessages = [];
           messages.forEach((message) => {
@@ -39,11 +43,13 @@ const Comments = (props) => {
           task.owner_id = task.results.owner_id;
           return task;
         };
+        // set Task with filtered data
         setTask((prevTask) => ({
           ...prevTask,
           results: filterMessages(prevTask),
         }));
       })
+      // Catch errors, and depending on a error status, redirect user
       .catch((err) =>
         err.response.status === 404
           ? redirect("/tasks")
@@ -54,6 +60,8 @@ const Comments = (props) => {
   };
 
   let actionBar;
+
+  // Setup action bar, based on comment ownership
   if (currentUser) {
     if (currentUser.id === owner_id) {
       actionBar = (

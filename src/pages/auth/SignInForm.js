@@ -11,6 +11,7 @@ import {
   useCurrentUser,
 } from "../../contexts/CurrentUserContext";
 import { getUserDetailsFrontToken } from "../../utils/utils";
+
 function SignInForm() {
   const redirect = useNavigate();
   const setCurrentUser = useSetCurrentUser();
@@ -21,6 +22,7 @@ function SignInForm() {
   });
   const { username, password } = signInData;
 
+  // Handle changes to the input fields in the form
   const eventHandler = (event) => {
     setSignInData({
       ...signInData,
@@ -30,6 +32,7 @@ function SignInForm() {
 
   const [errors, setErrors] = useState({});
 
+  // Submit data to log in user
   const submitHandler = async (event) => {
     event.preventDefault();
     api
@@ -37,9 +40,12 @@ function SignInForm() {
       .then((response) => {
         const token = response.data;
         setCurrentUser(getUserDetailsFrontToken(token));
+        // Add token to local storage
         localStorage.setItem("token", JSON.stringify(token));
+        // Redirect user to a home page
         redirect("/");
       })
+      // Catch errors returned from validating data
       .catch((err) => setErrors(err.response?.data));
   };
 

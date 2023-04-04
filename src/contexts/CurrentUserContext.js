@@ -17,6 +17,8 @@ export const CurrentUserProvider = ({ children }) => {
     } catch (err) {}
   };
 
+  /* Add event to local storage and set current to
+  null if there is no key in local storage */
   const handleLocalStorage = async () => {
     try {
       window.addEventListener("storage", () => {

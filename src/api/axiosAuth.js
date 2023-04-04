@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Define authorization header for requests
 const onRequest = (config) => {
   const token = JSON.parse(localStorage.getItem("token"));
   if (token) {
@@ -27,12 +28,12 @@ const onResponseError = async (error) => {
       const storedToken = JSON.parse(localStorage.getItem("token"));
       try {
         const originalRequest = error.config;
-        // const { response } = error;
         const rs = await axios.post("profiles/token/refresh/", {
           refresh: storedToken.refresh,
         });
         storedToken.access = rs.data.access;
         localStorage.setItem("token", JSON.stringify(storedToken));
+        // Retry request with original headers and data
         const data =
           typeof originalRequest.data === "string"
             ? JSON.parse(originalRequest.data)
@@ -44,7 +45,6 @@ const onResponseError = async (error) => {
         });
       } catch (error) {
         localStorage.removeItem("token");
-        // REMOVE USER STATE
         return Promise.reject(error);
       }
     }

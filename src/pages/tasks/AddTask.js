@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { resetCheckbox } from "../../utils/utils";
+
 function AddTask() {
   const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
@@ -20,6 +21,7 @@ function AddTask() {
   const { title, description, completed } = createTaskData;
   const [successMessage, setSuccessMessage] = useState(false);
 
+  //  Handle changes to the input fields in the form
   const eventHandler = (event) => {
     setCreateTaskData({
       ...createTaskData,
@@ -27,6 +29,7 @@ function AddTask() {
     });
   };
 
+  // Set a checkbox value to true/false depending on user selection
   const checkboxHandler = (event) => {
     if (event.target.checked) {
       createTaskData.completed = true;
@@ -37,6 +40,7 @@ function AddTask() {
 
   const [errors, setErrors] = useState({});
 
+  // Submit data to add task
   const submitHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -46,6 +50,7 @@ function AddTask() {
     api
       .post("/tasks/", createTaskData)
       .then((response) =>
+        // Handle post request, and reset the form
         response.status === 201 ? (
           (setErrors(""),
           resetCheckbox(),
@@ -58,10 +63,12 @@ function AddTask() {
           <></>
         )
       )
+      // Catch errors from validating data
       .catch((err) => setErrors(err.response?.data));
   };
 
   useEffect(() => {
+    // If there is no access token, redirect user to a sign in page
     const handleMount = async () => {
       if (!token) {
         redirect("/signin");

@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { handleCheckbox } from "../../utils/utils";
+
 function EditTask() {
   const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
@@ -23,6 +24,7 @@ function EditTask() {
   const [successMessage, setSuccessMessage] = useState(false);
   const { id } = useParams();
 
+  //  Handle changes to the input fields in the form
   const handleChange = (event) => {
     setEditTaskData({
       ...editTaskData,
@@ -30,6 +32,7 @@ function EditTask() {
     });
   };
 
+  // Set a checkbox value to true/false depending on user selection
   const checkboxHandler = (event) => {
     if (event.target.checked) {
       editTaskData.completed = true;
@@ -40,6 +43,7 @@ function EditTask() {
 
   const [errors, setErrors] = useState({});
 
+  // Submit data to edit task
   const submitHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -49,6 +53,7 @@ function EditTask() {
     api
       .put(`/tasks/${id}`, editTaskData)
       .then((response) =>
+        // Handle form submission
         response.status === 200
           ? (setIsLoaded(true),
             setErrors(""),
@@ -58,11 +63,13 @@ function EditTask() {
             }, 5000))
           : setIsLoaded(true)
       )
+      // Set errors returned from validating data
       .catch((err) => setErrors(err.response?.data));
   };
 
   useEffect(() => {
     const handleMount = async () => {
+      // Redirect to sign in page if there is no token
       if (!token) {
         redirect("/signin");
       } else {
@@ -71,8 +78,10 @@ function EditTask() {
           .then((response) => {
             if (token && currentUser) {
               if (currentUser.id !== response.data.owner_id) {
+                // Redirect user that is not authorized to tasks page
                 redirect("/tasks");
               } else {
+                // Populate the form with existing data
                 setEditTaskData({
                   title: response.data.title,
                   description: response.data.description,
@@ -83,6 +92,7 @@ function EditTask() {
             }
           })
           .catch((err) =>
+            // Catch errors and if task does not exist, redirect user to tasks page
             err.response.status === 404 ? redirect("/tasks") : {}
           );
       }
@@ -90,6 +100,7 @@ function EditTask() {
 
     handleMount();
     if (isLoaded) {
+      // Set checkbox according to task status
       handleCheckbox(completed);
     }
   }, [token, redirect, currentUser, id, completed, isLoaded]);

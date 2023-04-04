@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
+
 function EditComment() {
   const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
@@ -22,6 +23,7 @@ function EditComment() {
   const [successMessage, setSuccessMessage] = useState(false);
   const { comment } = updateComment;
 
+  //  Handle changes to the input fields in the form
   const eventHandler = (event) => {
     setUpdateComment({
       ...updateComment,
@@ -30,6 +32,7 @@ function EditComment() {
   };
   const [errors, setErrors] = useState({});
 
+  // Submit data to edit task
   const submitHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -37,6 +40,7 @@ function EditComment() {
     formData.append("task_id", updateComment.task_id);
     api
       .put(`/tasks/${id}/comments/${comment_id}`, updateComment)
+      // Handle post request
       .then((response) =>
         response.status === 200 ? (
           (setErrors(""),
@@ -48,24 +52,31 @@ function EditComment() {
           <></>
         )
       )
+      // Catch errors from validating data
       .catch((err) => setErrors(err.response?.data));
   };
 
   useEffect(() => {
+    // If there is no access token, redirect user to sign in page
     const handleMount = async () => {
       if (!token) {
         redirect("/signin");
       } else {
         api
           .get(`tasks/${id}/comments/${comment_id}`)
+          // Handle response
           .then((response) => {
+            // If a user is not a comment owner, redirect user to tasks page
             if (currentUser.id !== response.data.owner_id) {
               redirect("/tasks");
             } else {
+              // set Update Comment data with data received from a backend
               setUpdateComment({ comment: response.data.comment, task_id: id });
               setIsLoaded(true);
             }
           })
+          /* Catch errors and if a user tries to access comment 
+          that does not exist, redirect user to tasks page */
           .catch((err) =>
             err.response
               ? err.response.status === 404

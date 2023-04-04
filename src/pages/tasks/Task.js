@@ -36,6 +36,8 @@ const Task = (props) => {
   let completedStatus;
   let completedStatusWorded;
 
+  /* Remove task handler. Set correct state, 
+  depending where it is called (single or all tasks page) */
   const removeTask = async () => {
     api
       .delete(`/tasks/${id}`)
@@ -50,6 +52,7 @@ const Task = (props) => {
           redirect("/tasks/");
         }
       })
+      // Catch errors and redirect user based on error status
       .catch((err) =>
         err.response.status === 404
           ? redirect("/tasks")
@@ -59,6 +62,7 @@ const Task = (props) => {
       );
   };
 
+  // Display correct icon, depending on task completed status in all tasks page
   if (currentUser) {
     if (completed) {
       completedStatus = (
@@ -75,6 +79,7 @@ const Task = (props) => {
     }
   }
 
+  // Display correct status element, based on task completed status, in single task page
   if (currentUser) {
     if (completed) {
       completedStatusWorded = <span>Completed</span>;
@@ -83,6 +88,7 @@ const Task = (props) => {
     }
   }
 
+  // Action bar setup, depending on task ownership status in all tasks page
   if (currentUser) {
     if (owner_id === currentUser.id) {
       actionBar = (
@@ -133,6 +139,7 @@ const Task = (props) => {
     }
   }
 
+  // Action bar setup in single task page, depending on task ownership status in single task page
   if (currentUser) {
     if (owner_id === currentUser.id) {
       actionBarSingle = (

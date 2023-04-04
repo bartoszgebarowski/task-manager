@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
+
 function AddComment() {
   const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
@@ -20,6 +21,7 @@ function AddComment() {
   const [successMessage, setSuccessMessage] = useState(false);
   const { comment } = createComment;
 
+  //  Handle changes to the input fields in the form
   const eventHandler = (event) => {
     setCreateComment({
       ...createComment,
@@ -28,6 +30,7 @@ function AddComment() {
   };
   const [errors, setErrors] = useState({});
 
+  // Submit data to add comment
   const submitHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -36,6 +39,7 @@ function AddComment() {
     api
       .post(`/tasks/${id}/comments`, createComment)
       .then((response) =>
+        // On successful post request, reset form
         response.status === 201 ? (
           (setErrors(""),
           setSuccessMessage(true),
@@ -47,10 +51,12 @@ function AddComment() {
           <></>
         )
       )
+      // Catch errors, from validating data
       .catch((err) => setErrors(err.response?.data));
   };
 
   useEffect(() => {
+    // Check if task exists and if it does not exist redirect user to tasks page
     const handleMount = async () => {
       api
         .get(`tasks/${id}`)
