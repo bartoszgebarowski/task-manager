@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
+import { editTaskToast } from "../../utils/toasts";
 
 function EditComment() {
   const token = localStorage.getItem("token");
@@ -20,7 +21,6 @@ function EditComment() {
     comment: "",
     task_id: id,
   });
-  const [successMessage, setSuccessMessage] = useState(false);
   const { comment } = updateComment;
 
   //  Handle changes to the input fields in the form
@@ -42,15 +42,9 @@ function EditComment() {
       .put(`/tasks/${id}/comments/${comment_id}`, updateComment)
       // Handle post request
       .then((response) =>
-        response.status === 200 ? (
-          (setErrors(""),
-          setSuccessMessage(true),
-          setTimeout(() => {
-            setSuccessMessage(false);
-          }, 5000))
-        ) : (
-          <></>
-        )
+        response.status === 200
+          ? (editTaskToast(), redirect(`/tasks/${id}`))
+          : {}
       )
       // Catch errors from validating data
       .catch((err) => setErrors(err.response?.data));
@@ -93,13 +87,6 @@ function EditComment() {
     <>
       {isLoaded ? (
         <>
-          {successMessage === true ? (
-            <>
-              <Alert variant="success">Comment edited successfully !</Alert>
-            </>
-          ) : (
-            <></>
-          )}
           <h1 className={styles.FormHeader}>Edit comment</h1>
           <Container
             className={`justify-content-center ${styles.FormContainer}`}
@@ -130,8 +117,8 @@ function EditComment() {
               <Button
                 variant="warning"
                 className="ms-2"
-                onClick={() => redirect(-1)}
-                aria-label="Go back by one page"
+                onClick={() => redirect(`/tasks/${id}`)}
+                aria-label="Go back to detailed Task page"
               >
                 Go back
               </Button>

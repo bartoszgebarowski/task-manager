@@ -10,6 +10,7 @@ import styles from "../../styles/Tasks.module.css";
 import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
 import Comments from "../comments/Comments";
+import { deleteTaskToast } from "../../utils/toasts";
 
 const Task = (props) => {
   const {
@@ -47,9 +48,11 @@ const Task = (props) => {
             ...prevTasks,
             results: prevTasks.results.filter((element) => element.id !== id),
           }));
+          deleteTaskToast();
         } else {
           setTask({ results: [] });
           redirect("/tasks/");
+          deleteTaskToast();
         }
       })
       // Catch errors and redirect user based on error status
@@ -106,6 +109,7 @@ const Task = (props) => {
           <span className="me-2">
             <Link
               to={`edittask/${id}`}
+              state={{ isSinglePageAccessed: false }}
               aria-label={`Link to edit Task page with ${title} title, created by ${ownerDeconstructed.username}`}
             >
               <i
@@ -144,7 +148,7 @@ const Task = (props) => {
     if (owner_id === currentUser.id) {
       actionBarSingle = (
         <>
-          <Link to={`../edittask/${id}`}>
+          <Link to={`../edittask/${id}`} state={{ isSinglePageAccessed: true }}>
             <Button
               variant="dark"
               className="ms-1"
@@ -167,8 +171,8 @@ const Task = (props) => {
             variant="warning"
             className="ms-1"
             size="sm"
-            aria-label="Go back by 1 page"
-            onClick={() => redirect(-1)}
+            aria-label="Go back to Tasks page"
+            onClick={() => redirect("/tasks")}
           >
             Go back
           </Button>
@@ -181,8 +185,8 @@ const Task = (props) => {
             variant="warning"
             className="ms-1"
             size="sm"
-            aria-label="Go back by 1 page"
-            onClick={() => redirect(-1)}
+            aria-label="Go back to Tasks page"
+            onClick={() => redirect("/tasks")}
           >
             Go back
           </Button>

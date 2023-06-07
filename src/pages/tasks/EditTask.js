@@ -5,11 +5,14 @@ import { Container } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import api from "../../api/api";
 import styles from "../../styles/Forms.module.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { handleCheckbox } from "../../utils/utils";
+import { editTaskToast } from "../../utils/toasts";
 
 function EditTask() {
+  const location = useLocation();
+  const userLocationOrigin = location.state;
   const token = localStorage.getItem("token");
   const currentUser = useCurrentUser();
   const redirect = useNavigate();
@@ -21,7 +24,6 @@ function EditTask() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { title, description, completed } = editTaskData;
-  const [successMessage, setSuccessMessage] = useState(false);
   const { id } = useParams();
 
   //  Handle changes to the input fields in the form
@@ -43,6 +45,17 @@ function EditTask() {
 
   const [errors, setErrors] = useState({});
 
+  // Redirect user based on user previous location
+  const handleLocationRedirect = () => {
+    if (userLocationOrigin === null) {
+      redirect("/tasks");
+    } else if (userLocationOrigin.isSinglePageAccessed) {
+      redirect(`/tasks/${id}`);
+    } else {
+      redirect("/tasks");
+    }
+  };
+
   // Submit data to edit task
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -55,13 +68,8 @@ function EditTask() {
       .then((response) =>
         // Handle form submission
         response.status === 200
-          ? (setIsLoaded(true),
-            setErrors(""),
-            setSuccessMessage(true),
-            setTimeout(() => {
-              setSuccessMessage(false);
-            }, 5000))
-          : setIsLoaded(true)
+          ? (editTaskToast(), handleLocationRedirect())
+          : {}
       )
       // Set errors returned from validating data
       .catch((err) => setErrors(err.response?.data));
@@ -107,13 +115,6 @@ function EditTask() {
 
   return (
     <>
-      {successMessage === true ? (
-        <>
-          <Alert variant="success">Task edited successfully !</Alert>
-        </>
-      ) : (
-        <></>
-      )}
       {!isLoaded ? (
         <>Loading ...</>
       ) : (
@@ -164,7 +165,7 @@ function EditTask() {
               <Button
                 variant="warning"
                 className="ms-2"
-                onClick={() => redirect(-1)}
+                onClick={() => handleLocationRedirect()}
               >
                 Go back
               </Button>

@@ -5,6 +5,7 @@ import { truncateChars } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { Link } from "react-router-dom";
+import { removeCommentToast } from "../../utils/toasts";
 
 const Comments = (props) => {
   const currentUser = useCurrentUser();
@@ -48,6 +49,7 @@ const Comments = (props) => {
           ...prevTask,
           results: filterMessages(prevTask),
         }));
+        removeCommentToast();
       })
       // Catch errors, and depending on a error status, redirect user
       .catch((err) =>

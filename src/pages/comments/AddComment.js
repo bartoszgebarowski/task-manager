@@ -8,6 +8,7 @@ import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
+import { addCommentToast } from "../../utils/toasts";
 
 function AddComment() {
   const token = localStorage.getItem("token");
@@ -18,7 +19,6 @@ function AddComment() {
     comment: "",
     task_id: id,
   });
-  const [successMessage, setSuccessMessage] = useState(false);
   const { comment } = createComment;
 
   //  Handle changes to the input fields in the form
@@ -40,16 +40,9 @@ function AddComment() {
       .post(`/tasks/${id}/comments`, createComment)
       .then((response) =>
         // On successful post request, reset form
-        response.status === 201 ? (
-          (setErrors(""),
-          setSuccessMessage(true),
-          setCreateComment({ comment: "", task_id: id }),
-          setTimeout(() => {
-            setSuccessMessage(false);
-          }, 5000))
-        ) : (
-          <></>
-        )
+        response.status === 201
+          ? (addCommentToast(), redirect(`/tasks/${id}`))
+          : {}
       )
       // Catch errors, from validating data
       .catch((err) => setErrors(err.response?.data));
@@ -73,13 +66,6 @@ function AddComment() {
   }, [token, redirect, currentUser, id]);
   return (
     <>
-      {successMessage === true ? (
-        <>
-          <Alert variant="success">Comment added successfully !</Alert>
-        </>
-      ) : (
-        <></>
-      )}
       <h1 className={styles.FormHeader}>Add comment</h1>
       <Container className={`justify-content-center ${styles.FormContainer}`}>
         <Form onSubmit={submitHandler}>
@@ -108,8 +94,8 @@ function AddComment() {
           <Button
             variant="warning"
             className="ms-2"
-            onClick={() => redirect(-1)}
-            aria-label="Go back by one page"
+            onClick={() => redirect(`/tasks/${id}`)}
+            aria-label="Go back to detailed Task page"
           >
             Go back
           </Button>

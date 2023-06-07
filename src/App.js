@@ -11,10 +11,26 @@ import EditTask from "./pages/tasks/EditTask";
 import AddComment from "./pages/comments/AddComment";
 import HomePage from "./pages/home/HomePage";
 import EditComment from "./pages/comments/EditComment";
+import toastStyles from "./styles/Toasts.module.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div className={styles.App}>
       <NavBar />
+      <ToastContainer
+        className={toastStyles.ToastBox}
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/signup" element={<SignUpForm />}></Route>

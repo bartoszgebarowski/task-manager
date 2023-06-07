@@ -7,7 +7,7 @@ import api from "../../api/api";
 import styles from "../../styles/Forms.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { resetCheckbox } from "../../utils/utils";
+import { addTaskToast } from "../../utils/toasts";
 
 function AddTask() {
   const token = localStorage.getItem("token");
@@ -19,7 +19,6 @@ function AddTask() {
     completed: false,
   });
   const { title, description, completed } = createTaskData;
-  const [successMessage, setSuccessMessage] = useState(false);
 
   //  Handle changes to the input fields in the form
   const eventHandler = (event) => {
@@ -51,17 +50,7 @@ function AddTask() {
       .post("/tasks/", createTaskData)
       .then((response) =>
         // Handle post request, and reset the form
-        response.status === 201 ? (
-          (setErrors(""),
-          resetCheckbox(),
-          setSuccessMessage(true),
-          setCreateTaskData({ title: "", description: "", completed: false }),
-          setTimeout(() => {
-            setSuccessMessage(false);
-          }, 5000))
-        ) : (
-          <></>
-        )
+        response.status === 201 ? (redirect("/tasks"), addTaskToast()) : <></>
       )
       // Catch errors from validating data
       .catch((err) => setErrors(err.response?.data));
@@ -78,13 +67,6 @@ function AddTask() {
   }, [token, redirect, currentUser]);
   return (
     <>
-      {successMessage === true ? (
-        <>
-          <Alert variant="success">Task added successfully !</Alert>
-        </>
-      ) : (
-        <></>
-      )}
       <h1 className={styles.FormHeader}>Add task</h1>
       <Container className={`justify-content-center ${styles.FormContainer}`}>
         <Form onSubmit={submitHandler}>
@@ -133,8 +115,8 @@ function AddTask() {
           <Button
             variant="warning"
             className="ms-2"
-            onClick={() => redirect(-1)}
-            aria-label="Go back by one page"
+            onClick={() => redirect("/tasks")}
+            aria-label="Go back to Tasks page"
           >
             Go back
           </Button>
