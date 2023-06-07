@@ -3,7 +3,6 @@ import api from "../../api/api";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { changeCursor } from "../../utils/utils";
 import { Link } from "react-router-dom";
 import { truncateChars } from "../../utils/utils";
 import styles from "../../styles/Tasks.module.css";
@@ -112,14 +111,12 @@ const Task = (props) => {
               state={{ isSinglePageAccessed: false }}
               aria-label={`Link to edit Task page with ${title} title, created by ${ownerDeconstructed.username}`}
             >
-              <i
-                className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
-              ></i>
+              <i className={`fa-solid fa-pencil ${styles.Taskaction}`}></i>
             </Link>
           </span>
           <span className="me-2">
             <i
-              className={`fa-solid fa-trash pointer ${styles.Taskaction}`}
+              className={`fa-solid fa-trash ${styles.Taskaction}`}
               onClick={removeTask}
             ></i>
           </span>
@@ -194,8 +191,6 @@ const Task = (props) => {
       );
     }
   }
-
-  changeCursor();
 
   return (
     <>

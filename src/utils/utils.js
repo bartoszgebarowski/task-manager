@@ -12,13 +12,6 @@ export const getUserDetailsFrontToken = (token) => {
   return user;
 };
 
-// Change cursor style for each element with class pointer
-export const changeCursor = () => {
-  document.querySelectorAll(".pointer").forEach((element) => {
-    element.style.cursor = "pointer";
-  });
-};
-
 // Emulate truncatechars. Returns shorter string depending on arguments passed
 export const truncateChars = (str, isDate) => {
   if (str && isDate) {

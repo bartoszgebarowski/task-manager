@@ -7,10 +7,13 @@ import {
   useCurrentUser,
   useSetCurrentUser,
 } from "../contexts/CurrentUserContext";
+import useClickedOutsideToggle from "../hooks/useClickedOutsideToggle";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+
+  const { expanded, setExpanded, ref } = useClickedOutsideToggle();
 
   // Set current user to null and logout the user
   const logoutHandler = async () => {
@@ -81,7 +84,7 @@ const NavBar = () => {
     </>
   );
   return (
-    <Navbar className={styles.NavBar} expand="lg">
+    <Navbar className={styles.NavBar} expand="lg" expanded={expanded}>
       <Container>
         <Navbar.Brand className={styles.NavBarBrand}>
           <i className="fa-solid fa-t"></i>
@@ -91,6 +94,8 @@ const NavBar = () => {
         <Navbar.Toggle
           className={styles.NavBarToggleButton}
           aria-controls="basic-navbar-nav"
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
         />
         <Navbar.Collapse id="basic-navbar-nav">
           {currentUser ? loggedAs : <></>}

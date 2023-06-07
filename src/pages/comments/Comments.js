@@ -73,14 +73,12 @@ const Comments = (props) => {
               to={`editcomment/${id}`}
               aria-label={`Go to edit comment ${id} form`}
             >
-              <i
-                className={`fa-solid fa-pencil pointer ${styles.Taskaction}`}
-              ></i>
+              <i className={`fa-solid fa-pencil ${styles.Taskaction}`}></i>
             </Link>
           </span>
           <span className="me-2">
             <i
-              className={`fa-solid fa-trash pointer ${styles.Taskaction}`}
+              className={`fa-solid fa-trash ${styles.Taskaction}`}
               onClick={removeComment}
             ></i>
           </span>
