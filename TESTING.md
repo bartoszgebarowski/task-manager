@@ -41,4 +41,3 @@ CSS modules included with this project passed through Jigsaw validator with no s
 ## Known bugs 
 1. On page refresh, the user status is undefined and is set correctly after a delay.
 Due to the nature of this problem, additional measurements had to be taken in order to ensure that user status was handled properly 
-1. Success messages do not display with correct timing with each form submission.

@@ -16,10 +16,14 @@ The aim of this Task Manager application is to provide a platform to organize va
 * [Structure plane](#structure-plane)
     * [Features](#features)
     * [Planned features](#planned-features)
+    * [Re-use of components](#re-use-of-components)
+        * [Reusable components](#reusable-components)
+        * [Reusable stylesheets](#reusable-stylesheets)
 * [Skeleton plane](#skeleton-plane)
     * [Wireframes](#wireframes)
 * [Surface plane](#surface-plane)
     * [Colour scheme](#colour-scheme)
+    * [Typography](#Typography)
 * [Technologies](#technologies)
 * [Testing](#testing)
 * [Deployment](#deployment)
@@ -184,6 +188,20 @@ Edit comment form was implemented. Furthermore, action bar is present to allow a
 #### Planned features
 - tasks filtering for easier access for a particular task 
 - contact form to allow interaction between users and administration
+- migration to different type of router, to take full advantage of different features of React Router
+
+#### Re-use of components
+
+##### Reusable components
+
+* Notifications
+React Toastify package was used to implement the notification system, in response to user actions. Toast Container (component), with behaviour properties, can be accessed anywhere on the website. Message and icons are specified in toasts.js file and controlled through Toast emitters.
+
+* Navbar
+Navbar component was implemented to provide easy access way to navigate through the website. Component form was chosen to avoid code duplication and to improve code readability and reusability.
+
+##### Reusable stylesheets
+Global stylesheet was implemented for universal content styling. In addition, separated style modules were used, for individual components, with the local scope focus in mind.
 
 [Back to Table of contents](#table-of-contents)
 ## Skeleton plane 
@@ -238,6 +256,9 @@ Edit comment form was implemented. Furthermore, action bar is present to allow a
 The main colour is white (#FFFFFF)
 Navbar uses a dark theme from React Bootstrap framework.  Yellow (#f7f705) and orange colours were implemented to represent status and interactive elements.
 
+### Typography
+The main font used on the website is 'Roboto Condensed'
+
 [Back to Table of contents](#table-of-contents)
 ## Technologies
 
@@ -249,6 +270,10 @@ Navbar uses a dark theme from React Bootstrap framework.  Yellow (#f7f705) and o
     * package manager
 * Font Awesome 
     * icons
+* React Toastify 
+    * notification system
+* Google fonts
+    * Roboto Condensed font
 * Eslint
     * linting tool
 * Heroku
